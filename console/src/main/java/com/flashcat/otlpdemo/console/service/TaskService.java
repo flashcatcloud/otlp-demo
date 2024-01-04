@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -26,6 +25,13 @@ public class TaskService {
     public long createTask(@SpanAttribute("parameter")/*将参数放到attribute中*/ Task task) throws DataAccessException {
         Span span = Span.current(); // 手动给当前Span添加数据
         span.setAttribute("test_attribute_post_key", "test_attribute_post_value");
-        return taskDao.createTasks(task);
+        return taskDao.createTask(task);
+    }
+
+    @WithSpan(value = "updateTaskStatusService") // 自定义 Span 名称
+    public void updateTaskStatus(@SpanAttribute("parameter")/*将参数放到attribute中*/ Task task) throws DataAccessException {
+        Span span = Span.current(); // 手动给当前Span添加数据
+        span.setAttribute("test_attribute_update_key", "test_attribute_update_value");
+        taskDao.updateTaskStatus(task);
     }
 }

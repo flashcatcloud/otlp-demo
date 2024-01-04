@@ -28,9 +28,10 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
+
+        // 拦截器模式
         props.setProperty(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, TracingProducerInterceptor.class.getName());
 
-        Producer<String, String> kafkaProducer = new KafkaProducer<>(props);
-        return KafkaTelemetry.create(GlobalOpenTelemetry.get()).wrap(kafkaProducer);
+        return new KafkaProducer<>(props);
     }
 }

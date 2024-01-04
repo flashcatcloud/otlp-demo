@@ -4,7 +4,8 @@ public class Task {
     private long id;
     private String taskName;
     private String traceId;
-    private String parentSpanId;
+    private String taskStatus;
+
 
     public Task(String taskName) {
         this.taskName = taskName;
@@ -34,11 +35,11 @@ public class Task {
         this.traceId = traceId;
     }
 
-    public String getParentSpanId() {
-        return parentSpanId;
+    public String getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setParentSpanId(String parentSpanId) {
-        this.parentSpanId = parentSpanId;
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
     }
 }

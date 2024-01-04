@@ -1,7 +1,9 @@
-package com.flashcat.otlpdemo.producer.service.http;
+package com.flashcat.otlpdemo.consumer.service.http;
 
-import com.flashcat.otlpdemo.producer.model.Task;
-import com.google.gson.*;
+import com.flashcat.otlpdemo.consumer.model.Task;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import io.opentelemetry.instrumentation.httpclient.JavaHttpClientTelemetry;
@@ -29,8 +31,8 @@ public class TaskHTTPService {
         this.client = JavaHttpClientTelemetry.builder(GlobalOpenTelemetry.get()).build().newHttpClient(HttpClient.newBuilder().build());
     }
 
-    @WithSpan("createTaskByAPI")
-    public long createTask() throws IOException, InterruptedException, URISyntaxException {
+    @WithSpan("updateTaskStatusByAPI")
+    public void updateTaskStatus() throws IOException, InterruptedException, URISyntaxException {
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -38,8 +40,10 @@ public class TaskHTTPService {
 
         String task = gson.toJson(this.task);
 
+        System.out.println(task);
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(addr + "/api/v1/tasks"))
+                .uri(new URI(addr + "/api/v1/tasks/updateStatus"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(task))
                 .build();
@@ -48,10 +52,6 @@ public class TaskHTTPService {
         if (response.statusCode() != HttpStatus.OK.value()) {
             throw new IOException("Unexpected HTTP response: " + response.statusCode());
         }
-
-        JsonElement jsonElement = JsonParser.parseString(response.body());
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        return jsonObject.get("id").getAsInt();
     }
 
     public void setTask(Task task) {

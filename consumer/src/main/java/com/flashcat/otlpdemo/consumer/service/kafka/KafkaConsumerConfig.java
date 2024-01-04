@@ -34,8 +34,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupID);
 
-        props.setProperty(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, TracingConsumerInterceptor.class.getName());
-
+        // warp client
         Consumer<String, String> kafkaConsumer = new KafkaConsumer<>(props);
         return KafkaTelemetry.create(GlobalOpenTelemetry.get()).wrap(kafkaConsumer);
     }

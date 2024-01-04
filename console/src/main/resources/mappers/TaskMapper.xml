@@ -11,4 +11,10 @@
         VALUES (#{taskName}, #{traceID})
     </insert>
 
+    <update id="updateStatus" useGeneratedKeys="true" keyProperty="id" parameterType="com.flashcat.otlpdemo.console.model.Task">
+        UPDATE task
+        SET task_status = #{taskStatus}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

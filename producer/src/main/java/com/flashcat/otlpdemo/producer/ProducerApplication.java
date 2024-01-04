@@ -34,7 +34,7 @@ public class ProducerApplication implements ApplicationListener<ApplicationReady
     public static void main(String[] args) {
         Resource resource =
                 Resource.getDefault()
-                        .merge(Resource.builder().put(SERVICE_NAME, "producer-manual").build());
+                        .merge(Resource.builder().put(SERVICE_NAME, "producer").build());
 
         OpenTelemetrySdk openTelemetrySdk =
                 OpenTelemetrySdk.builder()

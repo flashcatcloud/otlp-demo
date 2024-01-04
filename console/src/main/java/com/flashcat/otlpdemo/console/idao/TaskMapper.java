@@ -13,4 +13,6 @@ public interface TaskMapper {
 
     public long create(Task task) throws DataAccessException;
 
+    public void updateStatus(Task task) throws DataAccessException;
+
 }

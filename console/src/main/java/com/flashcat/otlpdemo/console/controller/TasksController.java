@@ -27,4 +27,11 @@ public class TasksController {
         long id = taskService.createTask(task);
         return Collections.singletonMap("id", id);
     }
+
+    @PostMapping("/tasks/updateStatus")
+    @ExceptionHandler(Exception.class)
+    public Map<String, Object> updateTaskStatus(@RequestBody Task task) {
+        taskService.updateTaskStatus(task);
+        return Collections.emptyMap();
+    }
 }

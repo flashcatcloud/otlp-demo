@@ -22,8 +22,12 @@ public class TaskDao {
         return new PageInfo<>(tasks);
     }
 
-    public long createTasks(Task task) throws DataAccessException {
+    public long createTask(Task task) throws DataAccessException {
         taskMapper.create(task);
         return task.getId();
+    }
+
+    public void updateTaskStatus(Task task) throws DataAccessException {
+        taskMapper.updateStatus(task);
     }
 }
