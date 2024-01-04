@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flashcat.otlpdemo.console.idao.TaskMapper">
+    <select id="listAll" resultType="com.flashcat.otlpdemo.console.model.Task">
+        SELECT *
+        FROM task
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.flashcat.otlpdemo.console.model.Task">
+        INSERT INTO task(`task_name`, `trace_id`)
+        VALUES (#{taskName}, #{traceID})
+    </insert>
+
+</mapper>
