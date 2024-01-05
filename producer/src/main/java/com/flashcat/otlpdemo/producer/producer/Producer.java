@@ -7,8 +7,8 @@ import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class Producer {
 
     private Tracer tracer = GlobalOpenTelemetry.get().getTracer(Producer.class.getName());
 
-    private final Logger logger = LogManager.getLogger(Producer.class);
+    private final Logger logger = LoggerFactory.getLogger(Producer.class);
 
     public void doProducer() {
         while (true) {
@@ -56,8 +56,9 @@ public class Producer {
 
         // 需要调用makeCurrent创建当前的span内容
         try (Scope scope = span.makeCurrent()) {
-
             String name = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH_mm_ss"));
+            // logback 演示
+            logger.info("start producer task, name is " + name);
             Task task = new Task(name);
             task.setTraceId(Span.current().getSpanContext().getTraceId());
 
@@ -80,6 +81,7 @@ public class Producer {
                 span.setStatus(StatusCode.ERROR);
                 span.recordException(e);
             }
+            logger.info("producer task success, name is " + name);
         } catch (Throwable t) {
             span.setStatus(StatusCode.ERROR);
             span.recordException(t);

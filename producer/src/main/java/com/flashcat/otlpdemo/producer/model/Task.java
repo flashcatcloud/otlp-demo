@@ -1,5 +1,7 @@
 package com.flashcat.otlpdemo.producer.model;
 
+import com.google.gson.Gson;
+
 public class Task {
     private long id;
     private String taskName;
@@ -40,5 +42,10 @@ public class Task {
 
     public void setParentSpanId(String parentSpanId) {
         this.parentSpanId = parentSpanId;
+    }
+
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

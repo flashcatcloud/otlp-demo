@@ -1,6 +1,7 @@
 package com.flashcat.otlpdemo.producer;
 
 import com.flashcat.otlpdemo.producer.producer.Producer;
+import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.baggage.propagation.W3CBaggagePropagator;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.propagation.ContextPropagators;
@@ -60,6 +61,7 @@ public class ProducerApplication implements ApplicationListener<ApplicationReady
                         .setPropagators(ContextPropagators.create(TextMapPropagator.composite(W3CTraceContextPropagator.getInstance(), W3CBaggagePropagator.getInstance())))
                         .buildAndRegisterGlobal();
 
+//        OpenTelemetryAppender.install(GlobalOpenTelemetry.get());
         Runtime.getRuntime().addShutdownHook(new Thread(openTelemetrySdk::close));
         SpringApplication app = new SpringApplication(ProducerApplication.class);
         app.setBannerMode(Banner.Mode.OFF);
