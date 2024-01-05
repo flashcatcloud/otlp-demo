@@ -40,8 +40,6 @@ public class TaskHTTPService {
 
         String task = gson.toJson(this.task);
 
-        System.out.println(task);
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(addr + "/api/v1/tasks/updateStatus"))
                 .header("Content-Type", "application/json")
