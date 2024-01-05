@@ -4,7 +4,7 @@
 - Consumer：消费任务
 - Console：提供任务在MySQL中的增删改查
 
-[](./images/architecture.png)
+<img src=./images/architecture.png width=60% />
 
 
 ## 参考资料
